@@ -95,7 +95,7 @@ public class GameUI extends ConsoleHost implements /*DTarget, DropTarget,*/ Cons
 	    }
 	}
     }
-    
+
     static {
 	addtype("gameui", new WidgetFactory() {
 		public Widget create(Coord c, Widget parent, Object[] args) {
@@ -269,12 +269,14 @@ public class GameUI extends ConsoleHost implements /*DTarget, DropTarget,*/ Cons
 	    return(fv);
 	} else if(place == "inv") {
 	    invwnd = new Hidewnd(new Coord(100, 100), Coord.z, this, "Inventory");
+	    invwnd.c = new Coord(Config.window_props.getProperty("inv_pos", c.toString()));
 	    Widget inv = gettype(type).create(Coord.z, invwnd, cargs);
 	    invwnd.pack();
 	    invwnd.hide();
 	    return(inv);
 	} else if(place == "equ") {
 	    equwnd = new Hidewnd(new Coord(400, 10), Coord.z, this, "Equipment");
+	    equwnd.c = new Coord(Config.window_props.getProperty("equ_pos", c.toString()));
 	    Widget equ = gettype(type).create(Coord.z, equwnd, cargs);
 	    equwnd.pack();
 	    equwnd.hide();
@@ -306,14 +308,17 @@ public class GameUI extends ConsoleHost implements /*DTarget, DropTarget,*/ Cons
 	    return(mk[0]);
 	} else if(place == "buddy") {
 	    buddies = (BuddyWnd)gettype(type).create(new Coord(187, 50), this, cargs);
+	    buddies.c = new Coord(Config.window_props.getProperty("bud_pos", c.toString()));
 	    buddies.hide();
 	    return(buddies);
 	} else if(place == "pol") {
 	    polity = (Polity)gettype(type).create(new Coord(500, 50), this, cargs);
+	    polity.c = new Coord(Config.window_props.getProperty("pol_pos", c.toString()));
 	    polity.hide();
 	    return(polity);
 	} else if(place == "chr") {
 	    chrwdg = (CharWnd)gettype(type).create(new Coord(100, 50), this, cargs);
+	    chrwdg.c = new Coord(Config.window_props.getProperty("chr_pos", c.toString()));
 	    chrwdg.hide();
 	    return(chrwdg);
 	} else if(place == "chat") {
@@ -579,6 +584,7 @@ public class GameUI extends ConsoleHost implements /*DTarget, DropTarget,*/ Cons
 	new MenuButton(new Coord(x, 0), mainmenu, "inv", 9, "Inventory (Tab)") {
 	    public void click() {
 		if((invwnd != null) && invwnd.show(!invwnd.visible)) {
+		    Config.setWindowOpt("inv_pos", invwnd.c.toString());
 		    invwnd.raise();
 		    fitwdg(invwnd);
 		}
@@ -588,6 +594,7 @@ public class GameUI extends ConsoleHost implements /*DTarget, DropTarget,*/ Cons
 	new MenuButton(new Coord(x, 0), mainmenu, "equ", 5, "Equipment (Ctrl+E)") {
 	    public void click() {
 		if((equwnd != null) && equwnd.show(!equwnd.visible)) {
+		    Config.setWindowOpt("equ_pos", equwnd.c.toString());
 		    equwnd.raise();
 		    fitwdg(equwnd);
 		}
@@ -597,6 +604,7 @@ public class GameUI extends ConsoleHost implements /*DTarget, DropTarget,*/ Cons
 	new MenuButton(new Coord(x, 0), mainmenu, "chr", 20, "Studying (Ctrl+T)") {
 	    public void click() {
 		if((chrwdg != null) && chrwdg.show(!chrwdg.visible)) {
+		    Config.setWindowOpt("chr_pos", chrwdg.c.toString());
 		    chrwdg.raise();
 		    fitwdg(chrwdg);
 		    setfocus(chrwdg);
@@ -607,6 +615,7 @@ public class GameUI extends ConsoleHost implements /*DTarget, DropTarget,*/ Cons
 	new MenuButton(new Coord(x, 0), mainmenu, "bud", 2, "Buddy List (Ctrl+B)") {
 	    public void click() {
 		if((buddies != null) && buddies.show(!buddies.visible)) {
+		    Config.setWindowOpt("bud_pos", buddies.c.toString());
 		    buddies.raise();
 		    fitwdg(buddies);
 		    setfocus(buddies);
@@ -617,6 +626,7 @@ public class GameUI extends ConsoleHost implements /*DTarget, DropTarget,*/ Cons
 	new MenuButton(new Coord(x, 0), mainmenu, "pol", 16, "Town (Ctrl+P)") {
 	    public void click() {
 		if((polity != null) && polity.show(!polity.visible)) {
+		    Config.setWindowOpt("pol_pos", polity.c.toString());
 		    polity.raise();
 		    fitwdg(polity);
 		    setfocus(polity);
